@@ -11,17 +11,18 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      montrealWeather: {},
+      cityWeather: {},
+      weatherIcon: 100,
       cityName: "",
     };
   }
 
   componentDidMount() {
+    // document.getElementById("citySearch").value = '';
     this.getCityLocationByName("montreal");
   }
 
   getCityLocationByName = (cityName) => {
-    this.setState({ cityName: cityName });
     const cityLookupUrl = "https://geoapi.qweather.com/v2/city/lookup?";
 
     // get location
@@ -34,8 +35,9 @@ export default class App extends Component {
         },
       })
       .then((response) => {
-        // this.setState({ montrealWeather: response.data.now });
-        console.log(response.data.location[0]);
+        // this.setState({ cityWeather: response.data.now });
+        // console.log(response.data.location[0]);
+        this.setState({ cityName: response.data.location[0].name });
         this.getWeatherDataByLocation(
           response.data.location[0].lon + "," + response.data.location[0].lat
         );
@@ -58,8 +60,9 @@ export default class App extends Component {
         },
       })
       .then((response) => {
-        this.setState({ montrealWeather: response.data.now });
-        console.log(response.data.now);
+        this.setState({ weatherIcon: response.data.now.icon });
+        this.setState({ cityWeather: response.data.now });
+        // console.log(response.data.now);
       })
       .catch(function (error) {
         console.log(error);
@@ -71,21 +74,50 @@ export default class App extends Component {
   };
 
   render() {
+    // const image = require(`${this.state.cityWeather.icon}`)
+    // console.log(this.state.cityWeather.icon);
+    // const image = require(`./weather-icon-S1/color-256/${this.state.cityWeather.icon}.png`)
+
     return (
       <div className="App">
-        <h1>Météo</h1>
-        <Search
-          placeholder="input city name"
-          onSearch={this.onSearch}
-          style={{ width: 200 }}
-        />
-        <div>City: {this.state.cityName}</div>
-        <div>Temperature: {this.state.montrealWeather.temp}℃</div>
-        <div>Feels like: {this.state.montrealWeather.feelsLike}℃</div>
-        <div>Outside: {this.state.montrealWeather.text}</div>
-        <div>Pressure: {this.state.montrealWeather.pressure}</div>
-        <div>Visibility: {this.state.montrealWeather.vis}</div>
-        <div>Observe time: {this.state.montrealWeather.obsTime}</div>
+        <div
+          style={{
+            padding: "10px 20px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h1>Météo</h1>
+          <Search
+            placeholder="input city name"
+            onSearch={this.onSearch}
+            style={{ width: 200, margin: "5px" }}
+            allowClear="true"
+            id="citySearch"
+          />
+        </div>
+
+        <h1>{this.state.cityName}</h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={require(`./weather-icon-S1/color-256/${this.state.weatherIcon}.png`)}
+            style={{ width: "200px", height: "200px" }}
+          />
+          <div style={{ lineHeight: "80px", fontSize: '60px', padding: '60px' }}>
+            {this.state.cityWeather.temp} ℃
+          </div>
+        </div>
+
+        <div>Feels like: {this.state.cityWeather.feelsLike} ℃</div>
+        <div>Outside: {this.state.cityWeather.text}</div>
+        <div>Pressure: {this.state.cityWeather.pressure}</div>
+        <div>Visibility: {this.state.cityWeather.vis} km</div>
+        <div>Observe time: {this.state.cityWeather.obsTime}</div>
       </div>
     );
   }

@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+/src/weather-icon-S1
+/src/weather-icon-S2
 
 # testing
 /coverage
