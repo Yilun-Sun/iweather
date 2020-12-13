@@ -1,3 +1,7 @@
+body {
+  background-color: #ffeeff !important;
+}
+
 .App {
   text-align: center;
 }
@@ -9,17 +13,27 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    -webkit-animation: App-logo-spin infinite 20s linear;
+            animation: App-logo-spin infinite 20s linear;
   }
 }
 
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -28,11 +42,78 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@-webkit-keyframes App-logo-spin {
   from {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
   }
+}
+
+@keyframes App-logo-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.days-7-container {
+  width: 80%;
+  margin: 20px auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.days-7-container .day-card {
+  width: 13%;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #666666;
+  -webkit-box-shadow: 0 5px 2px 0 rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.days-7-container .day-card .date {
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+.days-7-container .day-card .weather {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.days-7-container .day-card .temp {
+  margin-top: 20px;
+  font-size: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.days-7-container .day-card .temp .high {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.days-7-container .day-card .temp .low {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.days-7-container .day-card:hover {
+  cursor: pointer;
 }
