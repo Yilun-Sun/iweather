@@ -1,4 +1,4 @@
-demo link: yilun-sun.github.io/iweather
+demo link: [a weather app](https://yilun-sun.github.io/iweather)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
