@@ -133,7 +133,9 @@ export default class App extends Component {
             src={require(`./weather-icon-S1/cute-512/${this.state.weatherIcon}.png`)}
             style={{ width: "200px", height: "200px" }}
           />
-          <div style={{ lineHeight: "80px", fontSize: "60px", padding: "60px" }}>{this.state.cityWeather.temp} ℃</div>
+          <div style={{ lineHeight: "80px", fontSize: "60px", padding: "60px 10px" }}>
+            {this.state.cityWeather.temp} ℃
+          </div>
         </div>
 
         <div>Feels like: {this.state.cityWeather.feelsLike} ℃</div>

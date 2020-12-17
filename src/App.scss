@@ -49,6 +49,10 @@ body {
 
   .day-card {
     width: 13%;
+    min-width: 120px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 20px;
     border-radius: 10px;
     background-color: #ffffff;
     color: #666666;
@@ -81,5 +85,11 @@ body {
     &:hover {
       cursor: pointer;
     }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .days-7-container {
+    flex-wrap: wrap;
   }
 }
