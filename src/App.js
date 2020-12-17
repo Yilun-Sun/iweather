@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import "./App.css";
+import React, { Component } from 'react';
+import './App.css';
 
-import axios from "axios";
+import axios from 'axios';
 
-import "antd/dist/antd.css";
-import { Input } from "antd";
+import 'antd/dist/antd.css';
+import { Input } from 'antd';
 
 const { Search } = Input;
 export default class App extends Component {
@@ -12,8 +12,8 @@ export default class App extends Component {
     super();
     this.state = {
       cityWeather: {},
-      weatherIcon: 100,
-      cityName: "",
+      weatherIcon: -1,
+      cityName: '',
       days7Weather: [{}, {}, {}, {}, {}, {}, {}],
       hours24Weather: [],
     };
@@ -21,26 +21,27 @@ export default class App extends Component {
 
   componentDidMount() {
     // document.getElementById("citySearch").value = '';
-    this.getCityLocationByName("montreal");
+    this.getCityLocationByName('montreal');
+    document.body.style.backgroundColor = `hsl(${Math.floor(Math.random() * 360)}, 100%, 96%)`;
   }
 
   getCityLocationByName = (cityName) => {
-    const cityLookupUrl = "https://geoapi.qweather.com/v2/city/lookup?";
+    const cityLookupUrl = 'https://geoapi.qweather.com/v2/city/lookup?';
 
     // get location
     axios
       .get(cityLookupUrl, {
         params: {
-          key: "935d116f4c384dec9ac8e88bdba1319d",
+          key: '935d116f4c384dec9ac8e88bdba1319d',
           location: cityName,
-          lang: "en",
+          lang: 'en',
         },
       })
       .then((response) => {
         // this.setState({ cityWeather: response.data.now });
         // console.log(response.data.location[0]);
         this.setState({ cityName: response.data.location[0].name });
-        this.getWeatherDataByLocation(response.data.location[0].lon + "," + response.data.location[0].lat);
+        this.getWeatherDataByLocation(response.data.location[0].lon + ',' + response.data.location[0].lat);
       })
       .catch(function (error) {
         console.log(error);
@@ -48,17 +49,17 @@ export default class App extends Component {
   };
 
   getWeatherDataByLocation = (location) => {
-    const weatherUrl = "https://devapi.qweather.com/v7/weather/";
-    const nowPostfix = "now?";
+    const weatherUrl = 'https://devapi.qweather.com/v7/weather/';
+    const nowPostfix = 'now?';
     // const hours24Postfix = "24h?";
-    const days7Postfix = "7d?";
+    const days7Postfix = '7d?';
     // get weather by location
     axios
       .get(weatherUrl + nowPostfix, {
         params: {
-          key: "935d116f4c384dec9ac8e88bdba1319d",
+          key: '935d116f4c384dec9ac8e88bdba1319d',
           location: location,
-          lang: "en",
+          lang: 'en',
         },
       })
       .then((response) => {
@@ -73,9 +74,9 @@ export default class App extends Component {
     axios
       .get(weatherUrl + days7Postfix, {
         params: {
-          key: "935d116f4c384dec9ac8e88bdba1319d",
+          key: '935d116f4c384dec9ac8e88bdba1319d',
           location: location,
-          lang: "en",
+          lang: 'en',
         },
       })
       .then((response) => {
@@ -102,49 +103,53 @@ export default class App extends Component {
     // const image = require(`${this.state.cityWeather.icon}`)
     // console.log(this.state.cityWeather.icon);
     // const image = require(`./weather-icon-S1/color-256/${this.state.cityWeather.icon}.png`)
+
     return (
-      <div className="App">
+      <div className='App'>
         <div
           style={{
-            padding: "10px 20px",
-            display: "flex",
-            justifyContent: "space-between",
+            padding: '10px 20px',
+            display: 'flex',
+            justifyContent: 'space-between',
           }}
         >
           <h1>Météo</h1>
           <Search
-            placeholder="input city name"
+            placeholder='input city name'
             onSearch={this.onSearch}
-            style={{ width: 200, margin: "5px" }}
-            allowClear="true"
-            id="citySearch"
+            style={{ width: 200, margin: '5px' }}
+            allowClear='true'
+            id='citySearch'
           />
         </div>
 
-        <h1>{this.state.cityName}</h1>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <img
-            alt=""
-            src={require(`./weather-icon-S1/cute-512/${this.state.weatherIcon}.png`)}
-            style={{ width: "200px", height: "200px" }}
-          />
-          <div style={{ lineHeight: "80px", fontSize: "60px", padding: "60px 10px" }}>
-            {this.state.cityWeather.temp} ℃
+        {this.state.weatherIcon !== -1 && (
+          <div>
+            <h1>{this.state.cityName}</h1>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <img
+                alt=''
+                src={require(`./weather-icon-S1/cute-512/${this.state.weatherIcon}.png`)}
+                style={{ width: '200px', height: '200px' }}
+              />
+              <div style={{ lineHeight: '80px', fontSize: '60px', padding: '60px 10px' }}>
+                {this.state.cityWeather.temp} ℃
+              </div>
+            </div>
+
+            <div>Feels like: {this.state.cityWeather.feelsLike} ℃</div>
+            <div>Outside: {this.state.cityWeather.text}</div>
+            <div>Pressure: {this.state.cityWeather.pressure}</div>
+            <div>Visibility: {this.state.cityWeather.vis} km</div>
           </div>
-        </div>
+        )}
 
-        <div>Feels like: {this.state.cityWeather.feelsLike} ℃</div>
-        <div>Outside: {this.state.cityWeather.text}</div>
-        <div>Pressure: {this.state.cityWeather.pressure}</div>
-        <div>Visibility: {this.state.cityWeather.vis} km</div>
-        <div id="my_dataviz"></div>
-        {/* style={{ display: myVar ? 'block' : 'none' }} */}
-        <div className="days-7-container" style={{ display: this.state.days7Weather[0].tempMax ? "flex" : "none" }}>
+        <div className='days-7-container' style={{ display: this.state.days7Weather[0].tempMax ? 'flex' : 'none' }}>
           <DayCard data={this.state.days7Weather[0]} index={0}></DayCard>
           <DayCard data={this.state.days7Weather[1]} index={1}></DayCard>
           <DayCard data={this.state.days7Weather[2]} index={2}></DayCard>
@@ -158,19 +163,19 @@ export default class App extends Component {
   }
 }
 
-const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const DayCard = (props) => {
   var curDay = new Date();
   curDay.setDate(curDay.getDate() + props.index);
   const dayOfWeek = daysOfTheWeek[curDay.getDay()];
   return (
-    <div className="day-card">
-      <div className="date">{dayOfWeek}</div>
-      <div className="weather">{props.data.textDay}</div>
-      <div className="temp">
-        <span className="high">{props.data.tempMax}℃</span> <span>/</span>{" "}
-        <span className="low">{props.data.tempMin}℃</span>
+    <div className='day-card'>
+      <div className='date'>{dayOfWeek}</div>
+      <div className='weather'>{props.data.textDay}</div>
+      <div className='temp'>
+        <span className='high'>{props.data.tempMax}℃</span> <span>/</span>{' '}
+        <span className='low'>{props.data.tempMin}℃</span>
       </div>
     </div>
   );
